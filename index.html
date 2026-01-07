@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Apprenez les différences entre let, const et var en JavaScript : variables modifiables, constantes et portée. Cours interactif avec exemples pratiques pour la formation DWWM MODE 83.">
+    <meta name="keywords" content="JavaScript, let, const, var, variables, constantes, scope, portée, ES6, DWWM, formation JavaScript">
+    <meta name="author" content="MODE 83 - Centre de Formation Numérique">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="French">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.mode83.fr/javascript-let-const-var-demo">
+    <meta property="og:title" content="JavaScript : let, const, var - Cours Interactif">
+    <meta property="og:description" content="Maîtrisez les variables JavaScript avec des démos interactives : let, const, var et portée">
+    <meta property="og:image" content="https://www.mode83.fr/images/javascript-variables-demo.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.mode83.fr/javascript-let-const-var-demo">
+    <meta property="twitter:title" content="JavaScript : let, const, var - Cours Interactif">
+    <meta property="twitter:description" content="Apprenez les variables JavaScript avec des exemples concrets et interactifs">
+    <meta property="twitter:image" content="https://www.mode83.fr/images/javascript-variables-demo.jpg">
+    
+    <!-- Structured Data JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "JavaScript : let, const et var",
+        "description": "Cours interactif sur les variables JavaScript : différences entre let, const et var, portée et bonnes pratiques",
+        "provider": {
+            "@type": "Organization",
+            "name": "MODE 83",
+            "url": "https://www.mode83.fr"
+        },
+        "educationalLevel": "Beginner",
+        "inLanguage": "fr-FR",
+        "courseCode": "DWWM-JS-Variables"
+    }
+    </script>
+    
+    <link rel="canonical" href="https://www.mode83.fr/javascript-let-const-var-demo">
+    <title>JavaScript : let, const, var - Variables et Constantes | MODE 83</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg-gradient-start: #667eea;
+            --bg-gradient-end: #764ba2;
+            --text-dark: #1a202c;
+            --text-medium: #4a5568;
+            --bg-light: white;
+            --bg-gray: #f7fafc;
+            --accent-color: #667eea;
+            --let-color: #0acf83;
+            --const-color: #f24e1e;
+            --var-color: #ffc107;
+            --border-color: #e2e8f0;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-gradient-start: #1a1f3a;
+                --bg-gradient-end: #2d1b4e;
+                --text-dark: #f7fafc;
+                --text-medium: #cbd5e0;
+                --bg-light: #1e293b;
+                --bg-gray: #2d3748;
+                --border-color: #4a5568;
+            }
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .page-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+        
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .demo-section {
+            background: var(--bg-light);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+        
+        .demo-section:nth-child(1) { animation-delay: 0.1s; }
+        .demo-section:nth-child(2) { animation-delay: 0.2s; }
+        .demo-section:nth-child(3) { animation-delay: 0.3s; }
+        .demo-section:nth-child(4) { animation-delay: 0.4s; }
+        .demo-section:nth-child(5) { animation-delay: 0.5s; }
+        .demo-section:nth-child(6) { animation-delay: 0.6s; }
+        .demo-section:nth-child(7) { animation-delay: 0.7s; }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        h2 {
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        h3 {
+            color: #764ba2;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            margin-top: 20px;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            h3 {
+                color: #b794f4;
+            }
+        }
+        
+        p {
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+        
+        /* Code Block */
+        .code-block {
+            background: #1e293b;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .code-line {
+            margin: 8px 0;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .keyword {
+            color: #c678dd;
+            font-weight: bold;
+        }
+        
+        .variable {
+            color: #e5c07b;
+        }
+        
+        .string {
+            color: #98c379;
+        }
+        
+        .number {
+            color: #d19a66;
+        }
+        
+        .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+        
+        .error {
+            color: #e06c75;
+            background: rgba(224, 108, 117, 0.1);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        
+        .success {
+            color: #98c379;
+        }
+        
+        /* Comparison Grid */
+        .comparison-grid {
+            display: grid;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        @media (min-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        .comparison-card {
+            background: var(--bg-light);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 3px solid;
+            transition: all 0.3s ease;
+        }
+        
+        .comparison-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .card-let {
+            border-color: var(--let-color);
+        }
+        
+        .card-const {
+            border-color: var(--const-color);
+        }
+        
+        .card-var {
+            border-color: var(--var-color);
+        }
+        
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-let .card-title {
+            color: var(--let-color);
+        }
+        
+        .card-const .card-title {
+            color: var(--const-color);
+        }
+        
+        .card-var .card-title {
+            color: var(--var-color);
+        }
+        
+        .card-feature {
+            background: var(--bg-gray);
+            padding: 12px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-size: 0.95rem;
+        }
+        
+        /* Interactive Demo */
+        .interactive-demo {
+            background: var(--bg-gray);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 2px solid var(--border-color);
+        }
+        
+        .demo-controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .demo-button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+        }
+        
+        .btn-let {
+            background: var(--let-color);
+        }
+        
+        .btn-const {
+            background: var(--const-color);
+        }
+        
+        .btn-var {
+            background: var(--var-color);
+        }
+        
+        .demo-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .demo-output {
+            background: #1e293b;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            min-height: 100px;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .output-success {
+            color: var(--let-color);
+        }
+        
+        .output-error {
+            color: var(--const-color);
+        }
+        
+        /* Scope Visualization */
+        .scope-container {
+            background: var(--bg-gray);
+            border-radius: 10px;
+            padding: 30px;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .scope-global {
+            border: 3px solid #667eea;
+            border-radius: 8px;
+            padding: 25px;
+            background: rgba(102, 126, 234, 0.05);
+        }
+        
+        .scope-function {
+            border: 3px solid #0acf83;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px;
+            background: rgba(10, 207, 131, 0.05);
+        }
+        
+        .scope-block {
+            border: 3px solid #f24e1e;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px;
+            background: rgba(242, 78, 30, 0.05);
+        }
+        
+        .scope-label {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 5px;
+            color: white;
+        }
+        
+        .label-global {
+            background: #667eea;
+        }
+        
+        .label-function {
+            background: #0acf83;
+        }
+        
+        .label-block {
+            background: #f24e1e;
+        }
+        
+        .visual-guide {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 15px;
+            color: #1a202c;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .visual-guide {
+                background: #1e3a5f;
+                color: #e3f2fd;
+            }
+        }
+        
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 15px;
+            color: #155724;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .success-box {
+                background: #064e3b;
+                color: #d1fae5;
+            }
+        }
+        
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 15px;
+            color: #856404;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .note {
+                background: #744210;
+                color: #fef3c7;
+            }
+        }
+        
+        .interactive-hint {
+            text-align: center;
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 1rem;
+            margin: 20px 0;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            .interactive-hint {
+                animation: none;
+            }
+        }
+        
+        .page-footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            padding: 20px;
+            opacity: 0.95;
+        }
+        
+        .page-footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .page-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--bg-light);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        th {
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        tr:hover {
+            background: var(--bg-gray);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .demo-section {
+                padding: 20px;
+            }
+            
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            table {
+                font-size: 0.9rem;
+            }
+            
+            th, td {
+                padding: 10px;
+            }
+        }
+        
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="page-header">
+        <h1>📦 JavaScript : let, const, var</h1>
+        <p class="subtitle">Variables et constantes - Différences et bonnes pratiques</p>
+    </header>
+    
+    <main>
+        <!-- Introduction -->
+        <section class="demo-section">
+            <h2>Introduction aux variables JavaScript</h2>
+            
+            <p>
+                En JavaScript, il existe <strong>trois façons</strong> de déclarer des variables : 
+                <code style="color: var(--let-color); font-weight: bold;">let</code>, 
+                <code style="color: var(--const-color); font-weight: bold;">const</code> et 
+                <code style="color: var(--var-color); font-weight: bold;">var</code>.
+            </p>
+            
+            <div class="code-block">
+                <div class="code-line"><span class="keyword">let</span> <span class="variable">age</span> = <span class="number">25</span>; <span class="comment">// Variable modifiable (recommandé)</span></div>
+                <div class="code-line"><span class="variable">age</span> = <span class="number">26</span>; <span class="success">// ✅ OK</span></div>
+                <div class="code-line">&nbsp;</div>
+                <div class="code-line"><span class="keyword">const</span> <span class="variable">nom</span> = <span class="string">"Jean"</span>; <span class="comment">// Constante non modifiable (recommandé)</span></div>
+                <div class="code-line"><span class="comment">// nom = "Marie"; // ❌ ERREUR !</span></div>
+                <div class="code-line">&nbsp;</div>
+                <div class="code-line"><span class="keyword">var</span> <span class="variable">ville</span> = <span class="string">"Paris"</span>; <span class="comment">// Ancienne syntaxe (éviter)</span></div>
+            </div>
+            
+            <div class="visual-guide">
+                <strong>🎯 Règle d'or moderne :</strong>
+                <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+                    <li>Utilisez <strong style="color: var(--const-color);">const</strong> par défaut</li>
+                    <li>Utilisez <strong style="color: var(--let-color);">let</strong> si la valeur doit changer</li>
+                    <li>N'utilisez JAMAIS <strong style="color: var(--var-color);">var</strong> (obsolète depuis ES6)</li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- Comparaison -->
+        <section class="demo-section">
+            <h2>Comparaison : let vs const vs var</h2>
+            
+            <div class="comparison-grid">
+                <div class="comparison-card card-let">
+                    <div class="card-title">
+                        <span>🟢</span>
+                        <span>let</span>
+                    </div>
+                    <p style="font-weight: 600; margin-bottom: 15px;">Variable Modifiable (ES6+)</p>
+                    
+                    <div class="card-feature">
+                        <strong>✅ Réassignation :</strong> Oui
+                    </div>
+                    <div class="card-feature">
+                        <strong>📍 Portée :</strong> Block scope
+                    </div>
+                    <div class="card-feature">
+                        <strong>🔄 Hoisting :</strong> Oui (non initialisée)
+                    </div>
+                    <div class="card-feature">
+                        <strong>📝 Usage :</strong> Valeur qui change (compteur, boucle)
+                    </div>
+                </div>
+                
+                <div class="comparison-card card-const">
+                    <div class="card-title">
+                        <span>🔴</span>
+                        <span>const</span>
+                    </div>
+                    <p style="font-weight: 600; margin-bottom: 15px;">Constante (ES6+)</p>
+                    
+                    <div class="card-feature">
+                        <strong>❌ Réassignation :</strong> Non (ERREUR)
+                    </div>
+                    <div class="card-feature">
+                        <strong>📍 Portée :</strong> Block scope
+                    </div>
+                    <div class="card-feature">
+                        <strong>🔄 Hoisting :</strong> Oui (non initialisée)
+                    </div>
+                    <div class="card-feature">
+                        <strong>📝 Usage :</strong> Valeur fixe (config, import)
+                    </div>
+                </div>
+                
+                <div class="comparison-card card-var">
+                    <div class="card-title">
+                        <span>🟡</span>
+                        <span>var</span>
+                    </div>
+                    <p style="font-weight: 600; margin-bottom: 15px;">Ancienne Syntaxe (Obsolète)</p>
+                    
+                    <div class="card-feature">
+                        <strong>✅ Réassignation :</strong> Oui
+                    </div>
+                    <div class="card-feature">
+                        <strong>📍 Portée :</strong> Function scope
+                    </div>
+                    <div class="card-feature">
+                        <strong>🔄 Hoisting :</strong> Oui (initialisée undefined)
+                    </div>
+                    <div class="card-feature">
+                        <strong>⚠️ Usage :</strong> À ÉVITER (problèmes de scope)
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Démo Interactive let -->
+        <section class="demo-section">
+            <h2>Démo Interactive : let (Variable Modifiable)</h2>
+            
+            <p class="interactive-hint">👇 Testez la modification d'une variable let</p>
+            
+            <div class="interactive-demo">
+                <div class="demo-controls">
+                    <button class="demo-button btn-let" onclick="demoLet()">Tester let</button>
+                    <button class="demo-button btn-let" onclick="modifyLet()">Modifier la valeur</button>
+                    <button class="demo-button btn-let" onclick="clearOutput()">Effacer</button>
+                </div>
+                
+                <div class="demo-output" id="output-let">
+                    Cliquez sur "Tester let" pour voir le résultat...
+                </div>
+            </div>
+            
+            <div class="code-block">
+                <div class="code-line"><span class="keyword">let</span> <span class="variable">age</span> = <span class="number">25</span>;</div>
+                <div class="code-line">console.log(<span class="variable">age</span>); <span class="comment">// 25</span></div>
+                <div class="code-line">&nbsp;</div>
+                <div class="code-line"><span class="variable">age</span> = <span class="number">26</span>; <span class="success">// ✅ Modification autorisée</span></div>
+                <div class="code-line">console.log(<span class="variable">age</span>); <span class="comment">// 26</span></div>
+            </div>
+            
+            <div class="success-box">
+                <strong>✅ Quand utiliser let ?</strong>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>Compteurs dans les boucles : <code>for (let i = 0; i < 10; i++)</code></li>
+                    <li>Valeurs qui changent : accumulation, calculs progressifs</li>
+                    <li>Variables temporaires dans les fonctions</li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- Démo Interactive const -->
+        <section class="demo-section">
+            <h2>Démo Interactive : const (Constante)</h2>
+            
+            <p class="interactive-hint">👇 Essayez de modifier une constante (erreur !)</p>
+            
+            <div class="interactive-demo">
+                <div class="demo-controls">
+                    <button class="demo-button btn-const" onclick="demoConst()">Tester const</button>
+                    <button class="demo-button btn-const" onclick="tryModifyConst()">Essayer de modifier (ERREUR)</button>
+                    <button class="demo-button btn-const" onclick="clearOutputConst()">Effacer</button>
+                </div>
+                
+                <div class="demo-output" id="output-const">
+                    Cliquez sur "Tester const" pour voir le résultat...
+                </div>
+            </div>
+            
+            <div class="code-block">
+                <div class="code-line"><span class="keyword">const</span> <span class="variable">nom</span> = <span class="string">"Jean"</span>;</div>
+                <div class="code-line">console.log(<span class="variable">nom</span>); <span class="comment">// "Jean"</span></div>
+                <div class="code-line">&nbsp;</div>
+                <div class="code-line"><span class="variable">nom</span> = <span class="string">"Marie"</span>; <span class="error">// ❌ TypeError: Assignment to constant variable</span></div>
+            </div>
+            
+            <div class="note">
+                <strong>⚠️ Important - const avec objets et tableaux :</strong>
+                <div style="margin-top: 10px;">
+                    <code style="font-family: monospace;">const</code> empêche la <strong>réassignation</strong> mais PAS la <strong>mutation</strong> :
+                </div>
+                <div class="code-block" style="margin-top: 15px;">
+                    <div class="code-line"><span class="keyword">const</span> <span class="variable">personne</span> = { <span class="variable">nom</span>: <span class="string">"Jean"</span> };</div>
+                    <div class="code-line"><span class="variable">personne</span>.<span class="variable">nom</span> = <span class="string">"Marie"</span>; <span class="success">// ✅ OK - Mutation autorisée</span></div>
+                    <div class="code-line"><span class="variable">personne</span> = {}; <span class="error">// ❌ ERREUR - Réassignation interdite</span></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Démo Interactive var -->
+        <section class="demo-section">
+            <h2>Démo Interactive : var (À Éviter)</h2>
+            
+            <p class="interactive-hint">👇 Découvrez pourquoi var pose problème</p>
+            
+            <div class="interactive-demo">
+                <div class="demo-controls">
+                    <button class="demo-button btn-var" onclick="demoVar()">Tester var</button>
+                    <button class="demo-button btn-var" onclick="demoVarProblem()">Voir le problème de var</button>
+                    <button class="demo-button btn-var" onclick="clearOutputVar()">Effacer</button>
+                </div>
+                
+                <div class="demo-output" id="output-var">
+                    Cliquez sur "Tester var" pour voir le résultat...
+                </div>
+            </div>
+            
+            <div class="code-block">
+                <div class="code-line"><span class="comment">// Problème 1 : var est "function scoped" pas "block scoped"</span></div>
+                <div class="code-line"><span class="keyword">if</span> (<span class="keyword">true</span>) {</div>
+                <div class="code-line">&nbsp;&nbsp;<span class="keyword">var</span> <span class="variable">x</span> = <span class="number">10</span>;</div>
+                <div class="code-line">}</div>
+                <div class="code-line">console.log(<span class="variable">x</span>); <span class="comment">// 10 - ACCESSIBLE en dehors du bloc !</span></div>
+                <div class="code-line">&nbsp;</div>
+                <div class="code-line"><span class="keyword">if</span> (<span class="keyword">true</span>) {</div>
+                <div class="code-line">&nbsp;&nbsp;<span class="keyword">let</span> <span class="variable">y</span> = <span class="number">10</span>;</div>
+                <div class="code-line">}</div>
+                <div class="code-line">console.log(<span class="variable">y</span>); <span class="error">// ❌ ReferenceError: y is not defined</span></div>
+            </div>
+            
+            <div class="note">
+                <strong>⚠️ Pourquoi éviter var ?</strong>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>Function scope</strong> : Variables accessibles en dehors des blocs (if, for)</li>
+                    <li><strong>Hoisting</strong> : Peut créer des bugs difficiles à détecter</li>
+                    <li><strong>Redéclaration</strong> : Peut être redéclaré sans erreur</li>
+                    <li><strong>let et const</strong> : Plus prévisibles et sécurisés (ES6+)</li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- Portée (Scope) -->
+        <section class="demo-section">
+            <h2>Portée (Scope) : Block vs Function</h2>
+            
+            <p>La <strong>portée</strong> détermine où une variable est accessible dans le code.</p>
+            
+            <div class="scope-container">
+                <div class="scope-global">
+                    <span class="scope-label label-global">Portée Globale (Global Scope)</span>
+                    <p style="margin-top: 15px;">Variables accessibles partout dans le code</p>
+                    
+                    <div class="scope-function">
+                        <span class="scope-label label-function">Portée de Fonction (Function Scope)</span>
+                        <p style="margin-top: 15px;">Variables accessibles uniquement dans la fonction (var, let, const)</p>
+                        
+                        <div class="scope-block">
+                            <span class="scope-label label-block">Portée de Bloc (Block Scope)</span>
+                            <p style="margin-top: 15px;">Variables accessibles uniquement dans le bloc { } (let, const)</p>
+                            <p style="margin-top: 10px;"><strong>var</strong> IGNORE le block scope !</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="code-block">
+                <div class="code-line"><span class="keyword">const</span> <span class="variable">global</span> = <span class="string">"Globale"</span>; <span class="comment">// Accessible partout</span></div>
+                <div class="code-line">&nbsp;</div>
+                <div class="code-line"><span class="keyword">function</span> maFonction() {</div>
+                <div class="code-line">&nbsp;&nbsp;<span class="keyword">const</span> <span class="variable">fonction</span> = <span class="string">"Fonction"</span>; <span class="comment">// Accessible dans la fonction</span></div>
+                <div class="code-line">&nbsp;&nbsp;</div>
+                <div class="code-line">&nbsp;&nbsp;<span class="keyword">if</span> (<span class="keyword">true</span>) {</div>
+                <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">const</span> <span class="variable">bloc</span> = <span class="string">"Bloc"</span>; <span class="comment">// Accessible dans le bloc uniquement</span></div>
+                <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;console.log(<span class="variable">bloc</span>); <span class="success">// ✅ "Bloc"</span></div>
+                <div class="code-line">&nbsp;&nbsp;}</div>
+                <div class="code-line">&nbsp;&nbsp;</div>
+                <div class="code-line">&nbsp;&nbsp;console.log(<span class="variable">bloc</span>); <span class="error">// ❌ ReferenceError</span></div>
+                <div class="code-line">}</div>
+            </div>
+        </section>
+        
+        <!-- Tableau Comparatif -->
+        <section class="demo-section">
+            <h2>Tableau Comparatif Complet</h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Caractéristique</th>
+                        <th style="color: var(--let-color);">let</th>
+                        <th style="color: var(--const-color);">const</th>
+                        <th style="color: var(--var-color);">var</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Réassignation</strong></td>
+                        <td>✅ Oui</td>
+                        <td>❌ Non</td>
+                        <td>✅ Oui</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Portée</strong></td>
+                        <td>Block scope { }</td>
+                        <td>Block scope { }</td>
+                        <td>Function scope</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hoisting</strong></td>
+                        <td>Oui (non initialisée)</td>
+                        <td>Oui (non initialisée)</td>
+                        <td>Oui (undefined)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Redéclaration</strong></td>
+                        <td>❌ Erreur</td>
+                        <td>❌ Erreur</td>
+                        <td>✅ Autorisée</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Initialisation obligatoire</strong></td>
+                        <td>❌ Non</td>
+                        <td>✅ Oui</td>
+                        <td>❌ Non</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Version ES</strong></td>
+                        <td>ES6 (2015)</td>
+                        <td>ES6 (2015)</td>
+                        <td>ES5 et avant</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Recommandation</strong></td>
+                        <td>✅ Recommandé</td>
+                        <td>✅✅ Par défaut</td>
+                        <td>⛔ À éviter</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <!-- Bonnes Pratiques -->
+        <section class="demo-section">
+            <h2>Bonnes Pratiques</h2>
+            
+            <div class="success-box">
+                <strong>✅ À Faire :</strong>
+                <ul style="margin-left: 20px; margin-top: 10px; line-height: 2;">
+                    <li>Utilisez <strong>const</strong> par défaut pour toutes les variables</li>
+                    <li>Utilisez <strong>let</strong> uniquement si la valeur doit changer</li>
+                    <li>Noms de variables explicites : <code>age</code>, <code>userName</code>, <code>totalPrice</code></li>
+                    <li>camelCase pour les variables : <code>nomUtilisateur</code> pas <code>nom_utilisateur</code></li>
+                    <li>MAJUSCULES pour les constantes globales : <code>const MAX_SIZE = 100;</code></li>
+                </ul>
+            </div>
+            
+            <div class="note" style="margin-top: 20px;">
+                <strong>⚠️ À Éviter :</strong>
+                <ul style="margin-left: 20px; margin-top: 10px; line-height: 2;">
+                    <li>❌ N'utilisez JAMAIS <code>var</code> (obsolète depuis 2015)</li>
+                    <li>❌ Ne déclarez pas de variables globales inutiles</li>
+                    <li>❌ Noms courts non explicites : <code>x</code>, <code>tmp</code>, <code>data</code></li>
+                    <li>❌ Mutation d'objets <code>const</code> sans raison valable</li>
+                    <li>❌ Redéclaration de variables dans le même scope</li>
+                </ul>
+            </div>
+            
+            <div class="visual-guide" style="margin-top: 20px;">
+                <strong>🎯 Ordre de préférence :</strong>
+                <div style="margin-top: 15px; font-size: 1.3rem; font-weight: bold; text-align: center;">
+                    <span style="color: var(--const-color);">const</span>
+                    <span style="margin: 0 15px;">→</span>
+                    <span style="color: var(--let-color);">let</span>
+                    <span style="margin: 0 15px;">→</span>
+                    <span style="color: var(--var-color); text-decoration: line-through;">var</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Récapitulatif -->
+        <section class="demo-section">
+            <h2>Récapitulatif</h2>
+            
+            <div style="display: grid; gap: 12px; margin: 30px 0;">
+                <div style="padding: 18px; background: var(--let-color); color: white; border-radius: 8px;">
+                    <strong style="font-size: 1.2rem;">let</strong> = Variable modifiable, block scope, réassignable
+                </div>
+                <div style="padding: 18px; background: var(--const-color); color: white; border-radius: 8px;">
+                    <strong style="font-size: 1.2rem;">const</strong> = Constante, block scope, non réassignable (RECOMMANDÉ)
+                </div>
+                <div style="padding: 18px; background: var(--var-color); color: white; border-radius: 8px;">
+                    <strong style="font-size: 1.2rem;">var</strong> = Ancienne syntaxe, function scope, À ÉVITER
+                </div>
+            </div>
+            
+            <div class="success-box">
+                <strong>🚀 Pour la formation DWWM :</strong>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>Toujours utiliser <strong>const</strong> par défaut</li>
+                    <li>Passer à <strong>let</strong> uniquement si nécessaire (compteur, accumulation)</li>
+                    <li>Bannir complètement <strong>var</strong> de votre code</li>
+                    <li>Comprendre la différence entre block scope et function scope</li>
+                    <li>Nommer vos variables de manière explicite et cohérente</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="page-footer">
+        <p>&copy; 2025 <a href="https://www.mode83.fr" rel="noopener" aria-label="Site web MODE 83">MODE 83</a> - Centre de Formation Numérique à Draguignan</p>
+        <p>Formation DWWM & REMN - Développement Web et Médiation Numérique</p>
+    </footer>
+    
+    <script>
+        // Variables pour les démos
+        let demoAge = 25;
+        const demoNom = "Jean";
+        var demoVille = "Paris";
+        
+        // Démo let
+        function demoLet() {
+            const output = document.getElementById('output-let');
+            demoAge = 25;
+            output.innerHTML = `
+                <span class="output-success">✅ Déclaration réussie :</span><br>
+                let age = ${demoAge};<br>
+                console.log(age); // ${demoAge}
+            `;
+        }
+        
+        function modifyLet() {
+            const output = document.getElementById('output-let');
+            demoAge = 26;
+            output.innerHTML = `
+                <span class="output-success">✅ Modification réussie :</span><br>
+                age = ${demoAge};<br>
+                console.log(age); // ${demoAge}<br><br>
+                <span class="output-success">→ let autorise la réassignation !</span>
+            `;
+        }
+        
+        function clearOutput() {
+            document.getElementById('output-let').innerHTML = 'Sortie effacée. Cliquez sur "Tester let" pour recommencer.';
+        }
+        
+        // Démo const
+        function demoConst() {
+            const output = document.getElementById('output-const');
+            output.innerHTML = `
+                <span class="output-success">✅ Déclaration réussie :</span><br>
+                const nom = "${demoNom}";<br>
+                console.log(nom); // "${demoNom}"
+            `;
+        }
+        
+        function tryModifyConst() {
+            const output = document.getElementById('output-const');
+            output.innerHTML = `
+                <span class="output-error">❌ ERREUR détectée :</span><br>
+                const nom = "Jean";<br>
+                nom = "Marie"; // Tentative de modification<br><br>
+                <span class="output-error">TypeError: Assignment to constant variable.</span><br><br>
+                <span class="output-error">→ const interdit la réassignation !</span>
+            `;
+        }
+        
+        function clearOutputConst() {
+            document.getElementById('output-const').innerHTML = 'Sortie effacée. Cliquez sur "Tester const" pour recommencer.';
+        }
+        
+        // Démo var
+        function demoVar() {
+            const output = document.getElementById('output-var');
+            output.innerHTML = `
+                <span style="color: ${getComputedStyle(document.documentElement).getPropertyValue('--var-color')}">⚠️ var fonctionne :</span><br>
+                var ville = "${demoVille}";<br>
+                console.log(ville); // "${demoVille}"<br><br>
+                <span style="color: ${getComputedStyle(document.documentElement).getPropertyValue('--var-color')}">Mais var est OBSOLÈTE et cause des problèmes...</span>
+            `;
+        }
+        
+        function demoVarProblem() {
+            const output = document.getElementById('output-var');
+            output.innerHTML = `
+                <span class="output-error">⚠️ PROBLÈME avec var :</span><br><br>
+                if (true) {<br>
+                &nbsp;&nbsp;var x = 10;<br>
+                }<br>
+                console.log(x); // 10 (ACCESSIBLE en dehors !)<br><br>
+                <span class="output-error">→ var ignore le block scope { }</span><br><br>
+                Avec let :<br>
+                if (true) {<br>
+                &nbsp;&nbsp;let y = 10;<br>
+                }<br>
+                console.log(y); <span class="output-error">// ReferenceError</span><br><br>
+                <span class="output-success">→ let respecte le block scope ✅</span>
+            `;
+        }
+        
+        function clearOutputVar() {
+            document.getElementById('output-var').innerHTML = 'Sortie effacée. Cliquez sur "Tester var" pour recommencer.';
+        }
+    </script>
+</body>
+</html>
